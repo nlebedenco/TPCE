@@ -1,0 +1,29 @@
+{
+	"FileVersion": 3,
+
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Third Person Character Extension",
+	"Description": "Adds code and assets to improve third person characters in a character-based project.",
+	"Category": "Gameplay",
+	"CreatedBy": "Nicolas Lebedenco",
+	"CreatedByURL": "http://nlebedenco.net",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "https://github.com/nlebedenco/TCPE/issues",
+	"EngineVersion": "4.20.0",
+	"EnabledByDefault": false,
+	"CanContainContent": true,
+	"Modules": [
+		{
+			"Name": "TPCE",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault"
+		},
+		{
+			"Name": "TPCEEditor",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit"
+		}
+	]
+}

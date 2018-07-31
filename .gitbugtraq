@@ -1,0 +1,8 @@
+# Bugtraq config for Git GUIs (SmartGit/TortoiseGit) to show links to an associated issue tracker.
+# Instead of the repository root directory, it could be added as an additional section to $GIT_DIR/config.
+# (note that '\' need to be escaped).
+[bugtraq]
+	warnifnoissue = false
+	url = https://bitbucket.org/nlebedenco/tpce/issues/%BUGID%
+	loglinkregex = "(clos(?:e|es|ed|ing)|fix(?:ed|es|ing)?|resolv(?:e|es|ed|ing)|reopen(?:s|ing)?|hold(?:s|ing)?|wontfix|invalidat(?:e|es|ed|ing)|addresses|re(?:f|fs|ferences)?|see)?(\\s*(,|and)?\\s*(issue[s]?|bug[s]?|ticket[s]?)?\\s*#\\d+(?:$|[^a-zA-Z0-9-]))+"
+	logregex = "(\\d+)"

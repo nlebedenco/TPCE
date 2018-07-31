@@ -1,0 +1,110 @@
+#
+# This file contains rules that control how Git handles binary and text files, 
+# including line endings
+#
+
+* text=off 
+
+# Make sure Windows batch files preserve CR/LF line endings, otherwise they may not be able to execute.  Windows
+# batch files require a CR/LF for labels to work properly, otherwise they may fail when labels straddle 512-byte
+# block boundaries.  This is important when files are downloaded through a zip archive that was authored on a
+# Linux machine (the default behavior on GitHub)
+
+*.bat eol=crlf
+*.sh  eol=lf
+
+###
+# Source Code
+#
+*.cs        diff=csharp
+*.c         diff=cpp
+*.cpp       diff=cpp
+*.objc      diff=objc
+*.java      diff=java
+*.py        diff=python
+*.html      diff=html
+*.htm       diff=htm
+*.xhtml     diff=html
+*.xhtm      diff=html
+*.xml       diff=patience
+
+###
+# Graphics
+#
+*.jpg       binary -delta
+*.jpeg      binary -delta
+*.png       binary -delta
+*.gif       binary -delta
+*.psd       binary
+*.ai        binary -delta
+*.tga       binary -delta
+*.tiff      binary
+*.tif       binary
+
+###
+# Fonts
+#
+*.ttf binary
+
+###
+# Audio
+#
+*.mp3       binary -delta
+*.wav       binary
+*.ogg       binary -delta
+
+###
+# Video
+#
+*.mp4       binary -delta
+*.mpg       binary -delta
+*.mpeg      binary -delta
+*.mov       binary -delta
+
+###
+# 3D Object
+#
+*.FBX       binary
+*.fbx       binary
+*.blend     binary -delta
+*.obj       binary
+
+###
+# Compressed files
+#
+*.7z        binary -delta
+*.zip       binary -delta
+*.ZIP       binary -delta
+*.gz        binary -delta
+*.bz2       binary -delta
+
+###
+# Documents
+#
+*.doc       diff=astextplain binary -delta
+*.DOC       diff=astextplain binary -delta
+*.docx      diff=astextplain binary -delta
+*.DOCX      diff=astextplain binary -delta
+*.dot       diff=astextplain binary -delta
+*.DOT       diff=astextplain binary -delta
+*.pdf       diff=astextplain binary -delta
+*.PDF       diff=astextplain binary -delta
+*.rtf       diff=astextplain binary -delta
+*.RTF       diff=astextplain binary -delta
+*.ps        binary
+*.PS        binary
+
+###
+# Misc Binaries
+#
+*.dll       binary
+
+###
+# UE4 Files
+#
+*.uasset    binary
+*.umap      binary
+
+
+
+
