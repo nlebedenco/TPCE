@@ -41,7 +41,7 @@ plug-in browser.
 
 **Note: This plugin is not supported by Epic Games.**
 
-Please [file an issue](https://github.com/nlebedenco/TCPE/issues)
+Please [file an issue here](https://github.com/nlebedenco/TCPE/issues)
 
 
 ## References
