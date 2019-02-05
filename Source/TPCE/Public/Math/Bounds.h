@@ -140,7 +140,7 @@ public:
 	}
 
 	/** Returns true if bounds are reversed (Min > UpperBound). */
-	FORCEINLINE float IsReversed() const
+	FORCEINLINE bool IsReversed() const
 	{
 		return (LowerBound > UpperBound);
 	}
