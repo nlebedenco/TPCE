@@ -47,7 +47,7 @@ void UActorWidgetComponent::PostEditChangeProperty(struct FPropertyChangedEvent&
 			if (World->IsGameWorld())
 				OnHiddenInGameChanged();
 	}
-	else if (PropertyName == GET_MEMBER_NAME_CHECKED(ThisClass, bVisible))
+	else if (PropertyName == GetVisiblePropertyName())
 	{
 		if (UWorld* World = GetWorld())
 			if (World->IsGameWorld())

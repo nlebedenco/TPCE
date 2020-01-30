@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "TopDownPlayerController.h"
+#include "GameFramework/TopDownPlayerController.h"
 
 #include "GameFramework/Pawn.h"
 #include "Components/ArmComponent.h"
@@ -82,7 +82,7 @@ ATopDownPlayerController::ATopDownPlayerController(const FObjectInitializer& Obj
 void ATopDownPlayerController::ForceAbsolute(USceneComponent* SceneComponent)
 {
 	check(SceneComponent);
-	bool bAbsolute = SceneComponent->bAbsoluteLocation && SceneComponent->bAbsoluteRotation && SceneComponent->bAbsoluteScale;
+	bool bAbsolute = SceneComponent->IsUsingAbsoluteLocation() && SceneComponent->IsUsingAbsoluteRotation() && SceneComponent->IsUsingAbsoluteScale();
 	if (!bAbsolute)
 	{
 		UE_LOG(LogTopDownPlayerController, Warning, TEXT("'%s' coordinates need to be defined in world-space and were changed to absolute."), *SceneComponent->GetReadableName());

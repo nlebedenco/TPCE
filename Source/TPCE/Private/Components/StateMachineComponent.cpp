@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "StateMachineComponent.h"
+#include "Components/StateMachineComponent.h"
 #include "GameFramework/Actor.h"
 #include "Engine/UserDefinedEnum.h"
 #include "Net/UnrealNetwork.h"
@@ -13,7 +13,7 @@ UStateMachineComponent::UStateMachineComponent()
 	bAutoActivate = true;
 	State = 0;
 
-	SetIsReplicated(true);
+	SetIsReplicatedByDefault(true);
 }
 
 void UStateMachineComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -25,7 +25,7 @@ void UStateMachineComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 
 void UStateMachineComponent::SetStateInternal(uint8 NewState)
 {
-	if (bIsActive && State != NewState)
+	if (IsActive() && State != NewState)
 	{
 		const uint8 PreviousState = State;
 		const EStateChangeMode StateChangeMode = IsNetSimulating() ? EStateChangeMode::Replicated : EStateChangeMode::Local;

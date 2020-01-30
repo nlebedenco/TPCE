@@ -4,7 +4,7 @@
 #include "GameFramework/Pawn.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
-#include "MathExtensions.h"
+#include "Math/MathExtensions.h"
 
 const FName UArmComponent::SocketName(TEXT("Endpoint"));
 
@@ -227,35 +227,32 @@ FVector UArmComponent::GetTargetLocation() const
 
 FRotator UArmComponent::GetTargetRotation() const
 {
-	FRotator DesiredRotation;
+	FRotator DesiredRotation = GetComponentRotation();
 
 	if (bUsePawnControlRotation)
 	{
 		if (APawn* OwningPawn = Cast<APawn>(GetAttachmentRootActor()))
 		{
-			DesiredRotation = OwningPawn->GetViewRotation() + RelativeRotation;
-			goto DesiredRotationAssigned;
+			DesiredRotation = OwningPawn->GetViewRotation() + GetRelativeRotation();
 		}
 	}
 
-	DesiredRotation = GetComponentRotation();
-DesiredRotationAssigned:
 	// If inheriting rotation, check options for which components to inherit
-	if (!bAbsoluteRotation)
+	if (!IsUsingAbsoluteRotation())
 	{
 		if (!bInheritPitch)
 		{
-			DesiredRotation.Pitch = RelativeRotation.Pitch;
+			DesiredRotation.Pitch = GetRelativeRotation().Pitch;
 		}
 
 		if (!bInheritYaw)
 		{
-			DesiredRotation.Yaw = RelativeRotation.Yaw;
+			DesiredRotation.Yaw = GetRelativeRotation().Yaw;
 		}
 
 		if (!bInheritRoll)
 		{
-			DesiredRotation.Roll = RelativeRotation.Roll;
+			DesiredRotation.Roll = GetRelativeRotation().Roll;
 		}
 	}
 

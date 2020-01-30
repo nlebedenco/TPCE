@@ -11,7 +11,7 @@
 	"DocsURL": "",
 	"MarketplaceURL": "",
 	"SupportURL": "https://github.com/nlebedenco/TCPE/issues",
-	"EngineVersion": "4.20.0",
+	"EngineVersion": "4.24.0",
 	"EnabledByDefault": false,
 	"CanContainContent": true,
 	"Modules": [

@@ -292,13 +292,13 @@ void UExtCharacterMovementComponent::SimulateMovement(float DeltaSeconds)
 		return;
 	}
 
-	const bool bIsSimulatedProxy = (CharacterOwner->Role == ROLE_SimulatedProxy);
+	const bool bIsSimulatedProxy = (CharacterOwner->GetLocalRole() == ROLE_SimulatedProxy);
 
 	// Workaround for replication not being updated initially
 	if (bIsSimulatedProxy &&
-		CharacterOwner->ReplicatedMovement.Location.IsZero() &&
-		CharacterOwner->ReplicatedMovement.Rotation.IsZero() &&
-		CharacterOwner->ReplicatedMovement.LinearVelocity.IsZero())
+		CharacterOwner->GetReplicatedMovement().Location.IsZero() &&
+		CharacterOwner->GetReplicatedMovement().Rotation.IsZero() &&
+		CharacterOwner->GetReplicatedMovement().LinearVelocity.IsZero())
 	{
 		return;
 	}
@@ -1459,7 +1459,7 @@ bool UExtCharacterMovementComponent::PredictStopLocation(FVector& OutStopLocatio
 		return false;
 
 	// Cannot predict a stop in anything below autonomous
-	if (GetIsReplicated() && CharacterOwner->Role < ROLE_Authority)
+	if (GetIsReplicated() && CharacterOwner->GetLocalRole() < ROLE_Authority)
 		return false;
 
 	// Cannot predict a stop if TimeStep or TimeLit are too small

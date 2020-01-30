@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ObjectMacros.h"
+#include "UObject/ObjectMacros.h"
 #include "Engine/EngineTypes.h"
 #include "Math/Bounds.h"
 
@@ -169,9 +169,9 @@ struct TPCE_API FRepLook
 {
 	GENERATED_BODY()
 
-	FRepLook():
-		Rotation(ForceInitToZero),
-		RotationQuantizationLevel(ERotatorQuantization::ByteComponents)
+	FRepLook()
+		: RotationQuantizationLevel(ERotatorQuantization::ByteComponents)
+		, Rotation(ForceInitToZero)
 	{
 	}
 
@@ -255,16 +255,16 @@ struct TPCE_API FRepExtMovement
 	UPROPERTY(EditDefaultsOnly, Category = Replication, AdvancedDisplay)
 	ERotatorQuantization RotationQuantizationLevel;
 
-	FRepExtMovement() :
-		bIsPivotTurning(false),
-		Location(ForceInitToZero),
-		Rotation(ForceInitToZero),
-		Velocity(ForceInitToZero),
-		Acceleration(ForceInitToZero),
-		TurnInPlaceTargetYaw(0.f),
-		LocationQuantizationLevel(EVectorQuantization::RoundWholeNumber),
-		VelocityQuantizationLevel(EVectorQuantization::RoundWholeNumber),
-		RotationQuantizationLevel(ERotatorQuantization::ByteComponents)
+	FRepExtMovement()
+		: bIsPivotTurning(false)
+		, Location(ForceInitToZero)
+		, Rotation(ForceInitToZero)
+		, Velocity(ForceInitToZero)
+		, Acceleration(ForceInitToZero)
+		, TurnInPlaceTargetYaw(0.f)
+		, VelocityQuantizationLevel(EVectorQuantization::RoundWholeNumber)
+		, LocationQuantizationLevel(EVectorQuantization::RoundWholeNumber)
+		, RotationQuantizationLevel(ERotatorQuantization::ByteComponents)
 		
 	{}
 

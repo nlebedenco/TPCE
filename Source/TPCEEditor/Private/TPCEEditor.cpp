@@ -52,7 +52,7 @@ UClass* FindCommonClass(const TArray<FAssetData>& SelectedAssets)
 	return CommonClass;
 }
 
-IMPLEMENT_MODULE(FTPCEEditor, ThirdPersonCharaterExtensionsEditor);
+IMPLEMENT_MODULE(FTPCEEditor, TPCEEditor);
 
 void FTPCEEditor::StartupModule()
 {

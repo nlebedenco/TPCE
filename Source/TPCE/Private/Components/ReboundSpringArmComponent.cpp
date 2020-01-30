@@ -3,7 +3,7 @@
 #include "CollisionQueryParams.h"
 #include "WorldCollision.h"
 #include "Engine/World.h"
-#include "MathExtensions.h"
+#include "Math/MathExtensions.h"
 
 UReboundSpringArmComponent::UReboundSpringArmComponent()
 {
