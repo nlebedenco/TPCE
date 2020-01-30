@@ -68,6 +68,8 @@ void UExtCharacterAnimInstance::NativeInitializeAnimation()
 		bIsPerformingGenericAction = CharacterOwner->bIsPerformingGenericAction;
 
 		// Ragdoll Event Handler
+		// Ensure delegate is bound (just once)
+		CharacterOwner->RagdollChangedDelegate.RemoveDynamic(this, &UExtCharacterAnimInstance::HandleRagdollChanged);
 		CharacterOwner->RagdollChangedDelegate.AddDynamic(this, &UExtCharacterAnimInstance::HandleRagdollChanged);
 
 		CharacterOwnerMesh = GetSkelMeshComponent();

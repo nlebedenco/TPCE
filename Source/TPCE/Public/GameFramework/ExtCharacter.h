@@ -717,7 +717,7 @@ public:		// Methods
 	 * @return true if this character is currently able to crouch (and is not currently crouched). This method was made final for consistency.
 	 * @see CanCrouchInternal()
 	 */
-	virtual bool CanCrouch() final;
+	virtual bool CanCrouch() const final;
 
 	virtual void OnEndCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;
 	virtual void OnStartCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;

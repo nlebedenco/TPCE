@@ -28,7 +28,7 @@ void FAnimMode_OrientationWarping::CacheBones_AnyThread(const FAnimationCacheBon
 
 void FAnimMode_OrientationWarping::Update_AnyThread(const FAnimationUpdateContext& Context)
 {
-	EvaluateGraphExposedInputs.Execute(Context);
+	GetEvaluateGraphExposedInputs().Execute(Context);
 	BasePose.Update(Context);
 }
 

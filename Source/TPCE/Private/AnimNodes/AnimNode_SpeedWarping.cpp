@@ -11,12 +11,12 @@ TAutoConsoleVariable<int32> CVarAnimSpeedWarpingEnable(TEXT("a.AnimNode.SpeedWar
 
 DECLARE_CYCLE_STAT(TEXT("SpeedWarping Eval"), STAT_SpeedWarping_Eval, STATGROUP_Anim);
 
-FAnimNode_SpeedWarping::FAnimNode_SpeedWarping() :
-	Space(EBoneControlSpace::BCS_BoneSpace),
-	Direction(FVector::RightVector),
-	PelvisAdjustmentAlpha(1.0f),
-	bClampIKUsingFKLeg(true),
-	PelvisInterpSpeed(10.f)
+FAnimNode_SpeedWarping::FAnimNode_SpeedWarping()
+	: Space(EBoneControlSpace::BCS_BoneSpace)
+	, Direction(FVector::RightVector)
+	, PelvisInterpSpeed(10.f)
+	, PelvisAdjustmentAlpha(1.0f)
+	, bClampIKUsingFKLeg(true)
 {
 }
 

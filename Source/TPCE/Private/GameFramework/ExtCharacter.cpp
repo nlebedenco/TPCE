@@ -363,7 +363,7 @@ AExtCharacter::AExtCharacter(const FObjectInitializer& ObjectInitializer)
 
 	// Enable Replication
 	bReplicates = true;
-	bReplicateMovement = true;
+	SetReplicatingMovement(true);
 	bNetUseOwnerRelevancy = true;
 
 	// Replication Settings
@@ -403,12 +403,14 @@ void AExtCharacter::PreReplication(IRepChangedPropertyTracker & ChangedPropertyT
 	FULL_OVERRIDE();
 
 	// Workaround:: Skip original ReplicatedMovement if the custom tailored one can be used.
-	if (bReplicateMovement || GetAttachmentReplication().AttachParent)
+	if (IsReplicatingMovement() || GetAttachmentReplication().AttachParent)
 	{
 		if (GatherExtMovement())
 		{
-			DOREPLIFETIME_ACTIVE_OVERRIDE(AExtCharacter, ReplicatedExtMovement, bReplicateMovement);
-			DOREPLIFETIME_ACTIVE_OVERRIDE(AActor, ReplicatedMovement, false);
+			DOREPLIFETIME_ACTIVE_OVERRIDE(AExtCharacter, ReplicatedExtMovement, IsReplicatingMovement());
+			PRAGMA_DISABLE_DEPRECATION_WARNINGS
+				DOREPLIFETIME_ACTIVE_OVERRIDE(AActor, ReplicatedMovement, false);
+			PRAGMA_ENABLE_DEPRECATION_WARNINGS
 		}
 		else
 		{
@@ -419,7 +421,9 @@ void AExtCharacter::PreReplication(IRepChangedPropertyTracker & ChangedPropertyT
 	else
 	{
 		DOREPLIFETIME_ACTIVE_OVERRIDE(AExtCharacter, ReplicatedExtMovement, false);
-		DOREPLIFETIME_ACTIVE_OVERRIDE(AActor, ReplicatedMovement, false);
+		PRAGMA_DISABLE_DEPRECATION_WARNINGS
+			DOREPLIFETIME_ACTIVE_OVERRIDE(AActor, ReplicatedMovement, false);
+		PRAGMA_ENABLE_DEPRECATION_WARNINGS
 	}
 
 	// Workaround: Disable replication of ReplicatedMovementMode since we have a custom movement mode replication that includes jump state info.
@@ -511,7 +515,7 @@ bool AExtCharacter::GatherExtMovement()
 {
 	if (RootComponent && !RootComponent->IsSimulatingPhysics())
 	{
-		if (Role == ROLE_SimulatedProxy)
+		if (GetLocalRole() == ROLE_SimulatedProxy)
 		{
 			return RootComponent->GetAttachParent() == nullptr;
 		}
@@ -549,7 +553,7 @@ void AExtCharacter::PostNetReceive()
 	// Full override because parent class implementation became obsolete with this class having a custom replicated movement mode.
 	FULL_OVERRIDE();
 
-	if (Role == ROLE_SimulatedProxy)
+	if (GetLocalRole() == ROLE_SimulatedProxy)
 	{
 		GetCharacterMovement()->bNetworkUpdateReceived = true;
 	}
@@ -560,14 +564,16 @@ void AExtCharacter::PostNetReceive()
 
 void AExtCharacter::OnRep_ReplicatedExtMovement()
 {
-	if (Role == ROLE_SimulatedProxy)
+	if (GetLocalRole() == ROLE_SimulatedProxy)
 	{
-		ReplicatedMovement.Location = ReplicatedExtMovement.Location;
-		ReplicatedMovement.Rotation = ReplicatedExtMovement.Rotation;
-		ReplicatedMovement.LinearVelocity = ReplicatedExtMovement.Velocity;
-		ReplicatedMovement.AngularVelocity = FVector::ZeroVector;
-		ReplicatedMovement.bSimulatedPhysicSleep = false;
-		ReplicatedMovement.bRepPhysics = false;
+		FRepMovement& MutableRepMovement = GetReplicatedMovement_Mutable();
+
+		MutableRepMovement.Location = ReplicatedExtMovement.Location;
+		MutableRepMovement.Rotation = ReplicatedExtMovement.Rotation;
+		MutableRepMovement.LinearVelocity = ReplicatedExtMovement.Velocity;
+		MutableRepMovement.AngularVelocity = FVector::ZeroVector;
+		MutableRepMovement.bSimulatedPhysicSleep = false;
+		MutableRepMovement.bRepPhysics = false;
 
 		OnRep_ReplicatedMovement();
 
@@ -1083,7 +1089,7 @@ void AExtCharacter::ToggleRagdoll()
 {
 	SetRagdoll(!bIsRagdoll);
 
-	if (Role < ROLE_Authority)
+	if (GetLocalRole() < ROLE_Authority)
 		ServerToggleRagdoll();
 	else
 	{
@@ -1193,7 +1199,7 @@ void AExtCharacter::OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 
 	const EMovementMode CurrentMovementMode = MyCharacterMovement->MovementMode;
 	const uint8 CurrentCustomMode = MyCharacterMovement->CustomMovementMode;
 
-	if (Role >= ROLE_AutonomousProxy)
+	if (GetLocalRole() >= ROLE_AutonomousProxy)
 	{
 		if (PrevMovementMode == MOVE_Falling)
 		{
@@ -1294,7 +1300,7 @@ void AExtCharacter::OnRagdollChanged()
 
 void AExtCharacter::UpdateMovementComponentSettings()
 {
-	if (Role >= ROLE_AutonomousProxy)
+	if (GetLocalRole() >= ROLE_AutonomousProxy)
 	{
 		switch (Gait)
 		{
@@ -1424,7 +1430,7 @@ void AExtCharacter::OnJumped_Implementation()
 
 // Crouching
 
-bool AExtCharacter::CanCrouch()
+bool AExtCharacter::CanCrouch() const
 {
 	// Full override to allow blueprints to override the conditions to crouch
 	FULL_OVERRIDE();
@@ -1791,7 +1797,7 @@ void AExtCharacter::OnStartRagdoll()
 	UExtCharacterMovementComponent* ExtCharacterMovement = GetExtCharacterMovement();
 	check(ExtCharacterMovement);
 
-	if (Role >= ROLE_AutonomousProxy)
+	if (GetLocalRole() >= ROLE_AutonomousProxy)
 	{
 		// Clear the land timer if it is still on since it has no purpose anymore.
 		if (IsLanding())
@@ -1899,7 +1905,7 @@ void AExtCharacter::SetLookAtActor(AActor* InActor)
 
 	ReplicatedLookAtActor = InActor;
 
-	if (Role < ROLE_Authority)
+	if (GetLocalRole() < ROLE_Authority)
 		SetLookAtActor(InActor);
 }
 

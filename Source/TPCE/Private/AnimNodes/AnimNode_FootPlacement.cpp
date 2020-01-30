@@ -10,7 +10,7 @@
 #include "AnimationRuntime.h"
 
 #if ENABLE_ANIM_DEBUG
-	#include "Async.h"
+	#include "Async/Async.h"
 
 	TAutoConsoleVariable<int32> CVarAnimNodeFootPlacementDebug(TEXT("a.AnimNode.FootPlacement.Debug"), 0, TEXT("Turn on debug for FAnimNode_FootPlacement"));
 #endif
